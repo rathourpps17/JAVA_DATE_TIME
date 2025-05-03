@@ -3,17 +3,14 @@
 
 ===> HISTORY OF DATE AND TIME IN JAVA <===
 
-********************************************************************************************
-
 1) Pre-Java 1.1: The java.util.Date Class (since JDK 1.0)
--------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------
+================================================================================
 - Introduced in JDK 1.0 (1996) to represent both date and time.
 - Intended to handle time representation and basic operations.
 - Design Flaws:
 
    a) Mutable → Not Thread-Safe
-   --------------------------------------
+   -------------------------------------------
    - Date objects are mutable (can be modified after creation).
    - This makes them unsafe to use across multiple threads.
    - Example:
@@ -22,7 +19,7 @@
    - If shared between threads, this can cause race conditions.
 
    b) Confusing and Deprecated Methods
-   --------------------------------------
+   -------------------------------------------
    - Early methods like getYear(), getMonth(), getDate() were confusing:
         - getYear() returns the year minus 1900
         - getMonth() is zero-based (January = 0)
@@ -34,7 +31,7 @@
    - These results are misleading and lead to bugs.
 
    c) Poor Internationalization (i18n) Support
-   --------------------------------------
+  -------------------------------------------
    - No built-in way to format or parse dates for different locales.
    - No support for different calendar systems (like Hijri, Buddhist, etc.).
    - Needed additional classes like DateFormat and Locale for formatting.
@@ -45,7 +42,7 @@
    - Still limited and clunky compared to modern APIs.
 
    d) Mixed Responsibilities (Poor Separation of Concerns)
-   --------------------------------------
+  -------------------------------------------
    - java.util.Date combines:
         * Date logic
         * Time logic
@@ -63,11 +60,9 @@
    - Most of its methods were deprecated in Java 1.1.
    - Calendar class was introduced in Java 1.1 to address some of these issues (but it too had problems).
 
-********************************************************************************************************
 
 2) Java 1.1: Calendar and TimeZone Classes (1997)
----------------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------
+=================================================================================================
 - Introduced in JDK 1.1 to improve upon java.util.Date.
 - Added java.util.Calendar and java.util.TimeZone classes.
 - Aimed to fix Date’s limitations like internationalization and time zone handling.
@@ -124,12 +119,9 @@
    - Still flawed due to mutability, verbosity, and confusing month handling.
    - Developers needed something simpler, immutable, and more intuitive.
 
-*********************************************************************************************
-
 
 3) Java 1.4: java.sql.Date, Time, and Timestamp
-------------------------------------------------------------------------
-------------------------------------------------------------------------
+===================================================================================
 - Introduced in JDK 1.4 to support database operations via JDBC.
 - Part of the java.sql package.
 - Designed to map SQL DATE, TIME, and TIMESTAMP types to Java.
@@ -176,8 +168,6 @@
    - Confusing to use due to inheritance and inconsistent method behavior.
    - Mostly replaced in modern Java by java.time types (LocalDate, LocalTime, LocalDateTime, Instant).
 
-****************************************************************************************************
-
 4) Workarounds Before Java 8: Third-Party Libraries
 ---------------------------------------------------------------
 - Because java.util.Date and Calendar were flawed and difficult to use,
@@ -217,9 +207,8 @@
    - Community-driven solutions like Joda-Time filled the gap left by poor native APIs.
    - Proved the need for a robust, modern, and built-in solution → Java 8’s java.time.
 
-********************************************************************************************
 5) Java 8: java.time Package (JSR-310, 2014)
----------------------------------------------------------------
+=======================================================================================
 - Java 8 introduced a brand-new date and time API under the package java.time.
 - Based on JSR-310 (Java Specification Request).
 - Inspired heavily by Joda-Time.
@@ -289,12 +278,8 @@
    - Now the recommended standard for all new Java projects.
    - Replaces java.util.Date, java.util.Calendar, java.sql.Date, and even Joda-Time.
 
-*****************************************************************************************
-
-
 6) Interoperability Between Old and New APIs (with Examples)
--------------------------------------------------------------
-
+=======================================================================================
 Java 8 provides ways to convert between old (java.util.Date, java.util.Calendar)
 and new (java.time) APIs using real-world examples.
 
@@ -305,14 +290,12 @@ and new (java.time) APIs using real-world examples.
    Instant instant = date.toInstant();
    System.out.println(instant);  // Output: 2025-05-03T05:00:00Z
 
--------------------------------------------------------------
 2. Convert java.time.Instant to java.util.Date
 -------------------------------------------------------------
    Instant instant = Instant.parse("2025-05-03T05:00:00Z");
    Date date = Date.from(instant);
    System.out.println(date);  // Output: Sat May 03 10:30:00 IST 2025
 
--------------------------------------------------------------
 3. Convert java.util.Date to LocalDateTime
 -------------------------------------------------------------
    Date date = new Date();  // Sat May 03 10:30:00 IST 2025
@@ -321,7 +304,6 @@ and new (java.time) APIs using real-world examples.
    LocalDateTime ldt = LocalDateTime.ofInstant(instant, zoneId);
    System.out.println(ldt);  // Output: 2025-05-03T10:30
 
--------------------------------------------------------------
 4. Convert LocalDateTime to java.util.Date
 -------------------------------------------------------------
    LocalDateTime ldt = LocalDateTime.of(2025, 5, 3, 10, 30);
@@ -330,7 +312,6 @@ and new (java.time) APIs using real-world examples.
    Date date = Date.from(instant);
    System.out.println(date);  // Output: Sat May 03 10:30:00 IST 2025
 
--------------------------------------------------------------
 5. Convert java.util.Calendar to ZonedDateTime
 -------------------------------------------------------------
    Calendar calendar = Calendar.getInstance();
@@ -338,28 +319,24 @@ and new (java.time) APIs using real-world examples.
    ZonedDateTime zdt = calendar.toInstant().atZone(calendar.getTimeZone().toZoneId());
    System.out.println(zdt);  // Output: 2025-05-03T10:30+05:30[Asia/Kolkata]
 
--------------------------------------------------------------
 6. Convert ZonedDateTime to java.util.Calendar
 -------------------------------------------------------------
    ZonedDateTime zdt = ZonedDateTime.of(2025, 5, 3, 10, 30, 0, 0, ZoneId.of("Asia/Kolkata"));
    Calendar calendar = GregorianCalendar.from(zdt);
    System.out.println(calendar.getTime());  // Output: Sat May 03 10:30:00 IST 2025
 
--------------------------------------------------------------
 7. Convert java.sql.Date to LocalDate
 -------------------------------------------------------------
    java.sql.Date sqlDate = java.sql.Date.valueOf("2025-05-03");
    LocalDate localDate = sqlDate.toLocalDate();
    System.out.println(localDate);  // Output: 2025-05-03
 
--------------------------------------------------------------
 8. Convert LocalDate to java.sql.Date
 -------------------------------------------------------------
    LocalDate localDate = LocalDate.of(2025, 5, 3);
    java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
    System.out.println(sqlDate);  // Output: 2025-05-03
 
--------------------------------------------------------------
 Notes:
 -------------------------------------------------------------
 - java.util.Date includes both date and time, and uses system default time zone.
@@ -368,13 +345,11 @@ Notes:
 - java.time.ZonedDateTime combines date, time, and time zone in one class.
 - Always specify ZoneId to avoid confusion in time zone-sensitive conversions.
 
-*************************************************************************************************
 7) Java 9 and Later Enhancements
------------------------------------------------
+=======================================================================================
 - Java 9 and later versions (up to Java 21) brought small but useful enhancements
   to the java.time package introduced in Java 8.
 
----------------------------------------------------------------
 1. Minor Enhancements to java.time Classes
 ---------------------------------------------------------------
    - Several classes in java.time were improved with more methods and better performance.
@@ -387,7 +362,6 @@ Notes:
    - toEpochSecond() now makes it easier to convert date-time to seconds since epoch.
    - toInstant() and toEpochMilli() enhancements for more precise conversion.
 
----------------------------------------------------------------
 2. Updated Time Zone Database
 ---------------------------------------------------------------
    - Java regularly updates the tzdata (time zone database) to reflect changes in laws.
@@ -399,7 +373,6 @@ Notes:
    ZonedDateTime zdt = ZonedDateTime.now(ZoneId.of("Europe/Paris"));
    System.out.println(zdt);  // Reflects latest DST rules
 
----------------------------------------------------------------
 3. Compact Strings for Date-Time Formatting
 ---------------------------------------------------------------
    - Enhanced internal handling of string representations of dates.
@@ -410,7 +383,6 @@ Notes:
    String formatted = LocalDate.now().format(formatter);
    System.out.println(formatted);  // Output: 03-05-2025
 
----------------------------------------------------------------
 4. Formatting Improvements
 ---------------------------------------------------------------
    - DateTimeFormatter now works better with localized styles.
@@ -421,23 +393,21 @@ Notes:
    System.out.println(LocalDateTime.now().format(iso));
    // Output: 2025-05-03T10:30:00
 
----------------------------------------------------------------
 5. Future Enhancements (Java 17+)
 ---------------------------------------------------------------
    - Support for Japanese, Hijrah, Minguo, and Thai Buddhist calendars.
    - Better interop with other libraries (like ICU4J).
    - Ongoing improvements in formatting and parsing for various locales.
 
----------------------------------------------------------------
 Summary:
 ---------------------------------------------------------------
    - Java 9+ improved usability, formatting, time zone handling, and conversions.
    - These changes are mostly internal but useful for developers needing precision and performance.
    - Java 8 remains the major shift, Java 9+ enhances it further.
 
-************************************************************************************************
 
 ===> Summary Table <===
+==========================================================================
 
 | Java Version | API/Classes Introduced        | Notes                                       |
 |--------------|-------------------------------|---------------------------------------------|
@@ -447,6 +417,7 @@ Summary:
 | JDK 8        | java.time (JSR-310)           | Clean, modern, immutable, thread-safe       |
 
 ===> Best Practice
+===========================================================================
 - Use java.time package (Java 8+) for all new development.
 - Avoid legacy classes unless dealing with legacy systems.
 - Use DateTimeFormatter for parsing/formatting dates.
