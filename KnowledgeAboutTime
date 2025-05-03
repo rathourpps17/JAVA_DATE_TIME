@@ -265,7 +265,7 @@ This is the most widely used and recognized format for date and time representat
 - **`T`**: Separates the date and time in the ISO 8601 format.
 - **`Z`**: Denotes that the time is in **UTC (Coordinated Universal Time)** without any time zone offset.
 
-# 📘 Epoch Time - Notes
+8)📘 Epoch Time - Notes
 ========================================================================================
 ## 🔹 What is an Epoch?
 -----------------------------------------------
@@ -309,7 +309,34 @@ This is the most widely used and recognized format for date and time representat
 - 1609459200 = 2021-01-01 00:00:00 UTC
 - 1683034800 = 2023-05-02 00:00:00 UTC
 
-```java
 long epochSeconds = System.currentTimeMillis() / 1000;
 System.out.println("Epoch Time in seconds: " + epochSeconds);
+
+9)Difference Between GMT and UTC
+===================================================================
+- **GMT (Greenwich Mean Time)**
+----------------------------------------------------------
+  - Based on the mean solar time at the Prime Meridian (0° longitude).
+  - Historically used; less precise due to variations in Earth's rotation.
+  - Treated as a time zone (e.g., GMT+0).
+  - Observes daylight saving in some regions (e.g., UK switches to BST).
+  - Common in civilian use, especially in the UK and Commonwealth countries.
+
+- **UTC (Coordinated Universal Time)**
+------------------------------------------------------------
+  - Based on atomic time (TAI) with leap seconds added to align with Earth's rotation.
+  - Extremely precise and stable.
+  - Not a time zone; a global timekeeping standard.
+  - Does **not** observe daylight saving time.
+  - Used in aviation, science, internet systems, and global coordination.
+
+# Summary
+| Feature              | GMT                        | UTC                          |
+|----------------------|----------------------------|-------------------------------|
+| Basis                | Mean solar time            | Atomic time + leap seconds   |
+| Precision            | Lower                      | Very high                    |
+| Time zone            | Yes (e.g., GMT+0)          | No (standard only)           |
+| Daylight saving      | Can apply (e.g., BST)      | Never                        |
+| Used in              | UK, civil time             | Global standards, tech, science |
+
 
