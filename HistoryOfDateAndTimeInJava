@@ -421,8 +421,3 @@ Summary:
 - Use java.time package (Java 8+) for all new development.
 - Avoid legacy classes unless dealing with legacy systems.
 - Use DateTimeFormatter for parsing/formatting dates.
-
-
-
-  
-    
