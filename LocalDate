@@ -379,7 +379,7 @@ System.out.println("Date String: " + str);  // Output: 2025-05-02
 ------------------------------------------------------------
 
 long epochDay = date.toEpochDay();  // Total days since 1970-01-01
-System.out.println("Epoch Days: " + epochDay);
+System.out.println("Epoch Days: " + epochDay); // Output: 19432
 
 
 3) Convert LocalDate to LocalDateTime:
@@ -393,8 +393,16 @@ System.out.println("LocalDateTime: " + dateTime);  // 2025-05-02T00:00
 ZonedDateTime zoned = date.atStartOfDay(ZoneId.systemDefault());
 OffsetDateTime offset = date.atStartOfDay().atOffset(ZoneOffset.UTC);
 
-System.out.println("ZonedDateTime : " + zoned);
-System.out.println("OffsetDateTime: " + offset);
+System.out.println("ZonedDateTime : " + zoned);  // Output: 2025-05-02T00:00+02:00[Europe/Paris]
+System.out.println("OffsetDateTime: " + offset);  // Output: 2025-05-02T00:00:00Z
+
+5) Get LocalDate from LocalDateTime:
+------------------------------------
+
+LocalDateTime dateTime = LocalDateTime.of(2025, 5, 2, 15, 30);
+LocalDate dateFromDateTime = dateTime.toLocalDate();  // Extracts date part
+
+System.out.println("LocalDate from LocalDateTime: " + dateFromDateTime);  // Output: 2025-05-02
 
 Summary of Useful Methods:
 ------------------------------------------------------------
