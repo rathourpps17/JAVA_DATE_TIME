@@ -24,7 +24,6 @@ LocalDate today = LocalDate.now();                // Get current date
 public static LocalDate of(int year, int month, int dayOfMonth)                  // Create specific date
 LocalDate date = LocalDate.of(2025, 5, 2);       
 
-
 public static LocalDate parse(CharSequence text)// Parse date from String
 LocalDate parsed = LocalDate.parse("2025-05-02"); 
 
@@ -411,3 +410,35 @@ Summary of Useful Methods:
 - `atStartOfDay()` ➝ converts to `LocalDateTime` at midnight
 - `atStartOfDay(zone)` ➝ converts to `ZonedDateTime`
 - `atStartOfDay().atOffset()` ➝ converts to `OffsetDateTime`
+
+
+4)Format Tables:-
+=======================
+
+1)Date formats
+------------------------------------------------------------
+
+| Format String      | Description                              | Sample Output     |
+|--------------------|------------------------------------------|-------------------|
+| "yyyy-MM-dd"       | ISO standard date format                 | 2025-05-04        |
+| "dd-MM-yyyy"       | Day-Month-Year format                    | 04-05-2025        |
+| "MM/dd/yyyy"       | US-style Month/Day/Year format           | 05/04/2025        |
+| "dd MMM yyyy"      | Day with short month name                | 04 May 2025       |
+| "dd MMMM yyyy"     | Day with full month name                 | 04 May 2025       |
+| "E, dd MMM yyyy"   | Short day name + date                    | Sun, 04 May 2025  |
+| "EEEE, dd MMMM yyyy" | Full day name + full date              | Sunday, 04 May 2025 |
+| "yyyy/MM/dd"       | Year/Month/Day with slashes              | 2025/05/04        |
+
+
+2)Letter Descriptions
+----------------------------------------------------------------------
+
+| Letter | Meaning                        | Example Value      |
+|--------|--------------------------------|--------------------|
+| y      | Year                           | 2025               |
+| M      | Month (1–12) or name           | 5, 05, May         |
+| d      | Day of month (1–31)            | 4, 04              |
+| E      | Day of week (short)            | Sun, Mon, etc.     |
+| EEEE   | Day of week (full)             | Sunday, Monday     |
+| MMM    | Month name (short)             | Jan, Feb, Mar      |
+| MMMM   | Month name (full)              | January, February  |
