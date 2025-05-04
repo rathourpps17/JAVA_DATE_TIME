@@ -138,6 +138,7 @@ LocalDateTime t22 = staticDateTime.withNano(100000000); // Output: 2025-05-02T10
 LocalDateTime dt1 = LocalDateTime.of(2025, 5, 2, 10, 30);
 LocalDateTime dt2 = LocalDateTime.of(2025, 6, 2, 10, 30);
 LocalDateTime dt3 = LocalDateTime.of(2025, 6, 2, 10, 30);
+LocalDateTime dt4 = dt1;
 
 // Comparison methods
 boolean isBefore = dt1.isBefore(dt2);  // true if dt1 is before dt2
@@ -151,6 +152,9 @@ boolean isNotEqual = dt1.equals(dt3);  // false, because dt1 and dt3 are differe
 int result1 = dt1.compareTo(dt2);  // result1 < 0 (dt1 is before dt2)
 int result2 = dt1.compareTo(dt3);  // result2 == 0 (dt1 equals dt3)
 int result3 = dt2.compareTo(dt1);  // result3 > 0 (dt2 is after dt1)
+
+System.out.println(dt1 == dt2); // false (different objects)
+System.out.println(dt1 == dt4); // true (same object)
 
 
 5)Periods and Durations
