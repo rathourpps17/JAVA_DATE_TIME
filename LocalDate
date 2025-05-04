@@ -2,7 +2,7 @@ Java 8 - LocalDate Study Notes
 ==============================
 
 1)Definition:
-============
+========================================================
 -LocalDate is a part of the Java 8 Date and Time API (java.time.*) and represents a date 
  without time and timezone. 
 
@@ -10,33 +10,45 @@ Example: 2025-05-02(only format that LocalDate Understands)
 -ISO 8601 — International Organization for Standardization, Standard Number 8601
 
 2)Import:
-============
+=================================================
 import java.time.LocalDate;
 
 
 3)METHODS:
-========
+================================================
+Java 8 - LocalDate: Creating Instances
+======================================
 
-1) Creating LocalDate Instances:
-===========================================
-LocalDate today = LocalDate.now();                // Get current date
+| Method                                                | Description                             |
+|-------------------------------------------------------|-----------------------------------------|
+| `LocalDate.now()`                                     | Gets the current date                   |
+| `LocalDate.of(int year, int month, int dayOfMonth)`   | Creates a specific date                 |
+| `LocalDate.parse(CharSequence text)`                  | Parses a date from a string             |
 
-public static LocalDate of(int year, int month, int dayOfMonth)                  // Create specific date
-LocalDate date = LocalDate.of(2025, 5, 2);       
+Examples:
+---------------------------------------------------------
+1) **Current Date**:
+----------------------
+LocalDate today = LocalDate.now();  // Gets the current date based on the system's clock.
 
-public static LocalDate parse(CharSequence text)// Parse date from String
-LocalDate parsed = LocalDate.parse("2025-05-02"); 
+2) **Specific Date**:
+----------------------
+LocalDate date = LocalDate.of(2025, 5, 2);  // Creates a date for May 2, 2025.
+
+3) **Parse from String**:
+--------------------------
+LocalDate parsed = LocalDate.parse("2025-05-02");  // Parses the date string into a LocalDate (ISO format: yyyy-MM-dd).
 
 2) Getting Date Components:
 =============================================
 LocalDate date = LocalDate.of(2025, 5, 2);
 
-System.out.println(date.getYear());        // 2025
-System.out.println(date.getMonth());       // MAY
-System.out.println(date.getMonthValue());  // 5
-System.out.println(date.getDayOfMonth());  // 2
-System.out.println(date.getDayOfWeek());   // FRIDAY
-System.out.println(date.lengthOfMonth());  // 31
+date.getYear();        // 2025
+date.getMonth();       // MAY
+date.getMonthValue();  // 5
+date.getDayOfMonth();  // 2
+date.getDayOfWeek();   // FRIDAY
+date.lengthOfMonth();  // 31
 
 3)Java 8 - LocalDate Operations (Add / Subtract Dates)
 ====================================================
@@ -45,37 +57,20 @@ LocalDate today = LocalDate.now();  // Current date (e.g., 2025-05-03)
 
 Adding Days / Months / Years:
 ----------------------------------------------------
-
-LocalDate tomorrow = today.plusDays(1);      
-// Add 1 day to today
-
-LocalDate nextWeek = today.plusWeeks(1);     
-// Add 1 week to today
-
-LocalDate nextMonth = today.plusMonths(1);   
-// Add 1 month to today
-
-LocalDate nextYear = today.plusYears(1);     
-// Add 1 year to today
-
+LocalDate tomorrow = today.plusDays(1);      // Add 1 day to today
+LocalDate nextWeek = today.plusWeeks(1);     // Add 1 week to today
+LocalDate nextMonth = today.plusMonths(1);   // Add 1 month to today
+LocalDate nextYear = today.plusYears(1);     // Add 1 year to today
 
 Subtracting Days / Weeks / Months / Years:
 -------------------------------------------------------------
-
-LocalDate yesterday = today.minusDays(1);      
-// Subtract 1 day from today
-
-LocalDate lastWeek = today.minusWeeks(1);      
-// Subtract 1 week from today
-
-LocalDate lastMonth = today.minusMonths(1);    
-// Subtract 1 month from today
-
-LocalDate lastYear = today.minusYears(1);      
-// Subtract 1 year from today
+LocalDate yesterday = today.minusDays(1);      // Subtract 1 day from today
+LocalDate lastWeek = today.minusWeeks(1);      // Subtract 1 week from today
+LocalDate lastMonth = today.minusMonths(1);    // Subtract 1 month from today
+LocalDate lastYear = today.minusYears(1);      // Subtract 1 year from today
 
 4)Java 8 - LocalDate Formatting using DateTimeFormatter/ Parsing LocalDate To String and ViceVersa
-===============================================================================
+========================================================================================================
 
 1) Formatting and Parsing Example:
 ----------------------------------------------------------------------------------------------------
