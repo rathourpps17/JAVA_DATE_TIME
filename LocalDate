@@ -437,3 +437,18 @@ Summary of Useful Methods:
 | EEEE   | Day of week (full)             | Sunday, Monday     |
 | MMM    | Month name (short)             | Jan, Feb, Mar      |
 | MMMM   | Month name (full)              | January, February  |
+
+5)Java 8 - LocalDate: Constants
+===============================================================================
+
+Constant                        | Description
+--------------------------------|-------------------------------------------------------
+LocalDate.MIN                   | The minimum supported date, -999999999-01-01.  
+                                | Example: LocalDate minDate = LocalDate.MIN;  // -999999999-01-01
+
+LocalDate.MAX                   | The maximum supported date, 999999999-12-31.  
+                                | Example: LocalDate maxDate = LocalDate.MAX;  // 999999999-12-31
+
+LocalDate.EPOCH                 | The epoch date, 1970-01-01 (ISO-8601 standard).  
+                                | Example: LocalDate epochDate = LocalDate.EPOCH;  // 1970-01-01
+
