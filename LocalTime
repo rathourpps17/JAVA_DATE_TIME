@@ -1,0 +1,334 @@
+Java 8 - LocalTime Study Notes
+==============================
+
+1)Definition:-
+==============================================
+- LocalTime is a class in the java.time package (Java 8+) that represents time 
+  without a date and without timezone.
+-The default format used by LocalTime is ISO-8601, which is:HH:mm:ss/HH:mm:ss.nnnnnnnnn(If in nanosec)
+
+Default Format:
+-------------------------------------------------------------------------------
+- LocalTime uses ISO-8601 format by default.
+- Format: HH:mm:ss (if no nanoseconds)
+- Format: HH:mm:ss.nnnnnnnnn (if nanoseconds are present)
+
+
+Example: 10:45:30 (10 hours, 45 minutes, 30 seconds)
+
+2)Import:
+===========================================
+import java.time.LocalTime;
+
+
+3)Methods :-
+===========================================
+
+1)Java 8 - LocalTime: Creating Instances
+==================================
+
+| Method Prototype                                 | Description                         |
+| ------------------------------------------------ | ----------------------------------- |
+| public static LocalTime now()                    | Gets current time from system clock |
+| public static LocalTime of(int hour, int minute) | Creates time with hour & minute     |
+| public static LocalTime of(int h, int m, int s)  | Creates time with hours, minutes, seconds |
+| public static LocalTime of(int h, int m, int s, int nano) | Creates time with hour, minute, second, nanoseconds |
+| public static LocalTime parse(CharSequence text) | Parses time from ISO-8601 string    |
+
+Examples:
+------------------------------------------------------------------------------------------------
+LocalTime t1 = LocalTime.now();                  // e.g., 14:25:36.123456  
+LocalTime t2 = LocalTime.of(10, 30);             // 10:30  
+LocalTime t3 = LocalTime.of(10, 30, 15);         // 10:30:15  
+LocalTime t4 = LocalTime.of(10, 30, 15, 250000000); // 10:30:15.250  
+LocalTime t5 = LocalTime.parse("10:45:30");      // Parses string to LocalTime
+
+
+2)Java 8 - LocalTime: Getting Time Components
+===========================================
+
+LocalTime time = LocalTime.of(15, 45, 30);  
+// Time: 15 hours, 45 minutes, 30 seconds
+
+Getting Components:
+------------------------------------------------------------------------------------------------
+int hour = time.getHour();       
+// Output: 15 (24-hour format)
+
+int minute = time.getMinute();   
+// Output: 45
+
+int second = time.getSecond();   
+// Output: 30
+
+int nano = time.getNano();       
+// Output: 0 (since nanoseconds not specified)
+// Returns nanoseconds part of the second (0–999,999,999)
+
+Note:
+- `getNano()` returns nanoseconds, not milliseconds.
+- Use `getNano() / 1_000_000` to convert to milliseconds (if needed).
+
+Example:
+------------------------------------------------------------------------------------------------
+LocalTime full = LocalTime.of(10, 20, 30, 123000000);
+System.out.println(full.getNano());        // 123000000
+System.out.println(full.getNano() / 1_000_000);  // 123 (milliseconds)
+
+
+3)Java 8 - LocalTime: Manipulation Methods
+===========================================
+
+LocalTime time = LocalTime.of(10, 20);  
+// Initial time: 10:20
+
+Adding Time:
+------------------------------------------------------------------------------------------------
+time.plusHours(2);              // 12:20  
+time.plusMinutes(40);           // 11:00  
+time.plusSeconds(30);           // 10:20:30  
+time.plusNanos(1_000_000);      // Adds 1 millisecond → 10:20:00.001  
+
+Subtracting Time:
+------------------------------------------------------------------------------------------------
+time.minusHours(1);             // 09:20  
+time.minusMinutes(15);          // 10:05  
+time.minusSeconds(10);          // 10:19:50  
+time.minusNanos(500_000);       // Subtracts 0.5 milliseconds  
+
+Setting Specific Values:
+------------------------------------------------------------------------------------------------
+time.withHour(8);               // 08:20  
+time.withMinute(45);            // 10:45  
+time.withSecond(15);            // 10:20:15  
+time.withNano(250_000_000);     // Sets nanoseconds → 10:20:00.250  
+
+Method Summary:
+------------------------------------------------------------------------------------------------
+| Method               | Description                        |
+|---------------------|------------------------------------|
+| plusHours(long)     | Adds hours                         |
+| plusMinutes(long)   | Adds minutes                       |
+| plusSeconds(long)   | Adds seconds                       |
+| plusNanos(long)     | Adds nanoseconds                   |
+| minusHours(long)    | Subtracts hours                    |
+| minusMinutes(long)  | Subtracts minutes                  |
+| minusSeconds(long)  | Subtracts seconds                  |
+| minusNanos(long)    | Subtracts nanoseconds              |
+| withHour(int)       | Sets the hour                      |
+| withMinute(int)     | Sets the minute                    |
+| withSecond(int)     | Sets the second                    |
+| withNano(int)       | Sets the nanosecond                |
+
+Important Note:
+------------------------------------------------------------------------------------------------
+- All these methods return **new** `LocalTime` instances (they are immutable).
+- You must assign the result to a variable:
+
+  Example:
+------------------------------------------------------------------------------------------------
+  LocalTime updated = time.plusHours(2).minusMinutes(10);
+
+4)Java 8 - LocalTime: Comparison Methods
+======================================
+
+LocalTime t1 = LocalTime.of(10, 15);  
+LocalTime t2 = LocalTime.of(12, 00);
+
+Comparison:
+------------------------------------------------------------------------------------------------
+t1.isBefore(t2);     // true → 10:15 is before 12:00  
+t1.isAfter(t2);      // false → 10:15 is not after 12:00  
+t1.equals(t2);       // false → t1 and t2 are not equal  
+t1.equals(LocalTime.of(10, 15)); // true  
+
+Using compareTo():
+------------------------------------------------------------------------------------------------
+int result = t1.compareTo(t2);
+// result < 0 → t1 is before t2
+// result == 0 → both times are equal
+// result > 0 → t1 is after t2
+
+Example:
+------------------------------------------------------------------------------------------------
+System.out.println(t1.compareTo(t2));    // -1
+System.out.println(t2.compareTo(t1));    // 1
+System.out.println(t1.compareTo(LocalTime.of(10, 15)));  // 0
+
+Method Summary:
+------------------------------------------------------------------------------------------------
+| Method                | Description                              |
+|----------------------|------------------------------------------|
+| isBefore(LocalTime)  | Returns true if this time is before given time |
+| isAfter(LocalTime)   | Returns true if this time is after given time  |
+| equals(Object)       | Compares two LocalTime objects for equality  |
+| compareTo(LocalTime) | Returns -1, 0, or 1 for sorting or comparing |
+
+Note:
+------------------------------------------------------------------------------------------------
+- `LocalTime` implements `Comparable<LocalTime>` → natural ordering based on time
+- Null-safe checks are important in real applications to avoid NPEs
+
+
+5)Java 8 - LocalTime: Formatting & Parsing
+========================================
+
+1) **Basic Formatting**:
+------------------------------------------------------------------------------------------------
+LocalTime time = LocalTime.of(14, 30);  
+DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");  
+String formatted = time.format(formatter);  
+// Output: "14:30:00"
+
+2) **With Milliseconds**:
+------------------------------------------------------------------------------------------------
+LocalTime timeWithMillis = LocalTime.of(14, 30, 15, 500000000);  
+DateTimeFormatter formatterMillis = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");  
+String formattedMillis = timeWithMillis.format(formatterMillis);  
+// Output: "14:30:15.500"
+
+3) **12-Hour Format with AM/PM**:
+------------------------------------------------------------------------------------------------
+LocalTime time12Hour = LocalTime.of(14, 30);  
+DateTimeFormatter formatter12Hour = DateTimeFormatter.ofPattern("hh:mm a");  
+String formatted12Hour = time12Hour.format(formatter12Hour);  
+// Output: "02:30 PM"
+
+4) **Parsing Time from String**:
+------------------------------------------------------------------------------------------------
+String timeStr = "14:30:00";  
+LocalTime parsedTime = LocalTime.parse(timeStr, DateTimeFormatter.ofPattern("HH:mm:ss"));  
+// Output: LocalTime[14:30]
+
+5) **Parsing with AM/PM**:
+------------------------------------------------------------------------------------------------
+String timeStrAMPM = "02:30 PM";  
+LocalTime parsedAMPM = LocalTime.parse(timeStrAMPM, DateTimeFormatter.ofPattern("hh:mm a"));  
+// Output: LocalTime[14:30]
+
+Note:
+------------------------------------------------------------------------------------------------
+- **"HH"** → 24-hour format (00-23)
+- **"hh"** → 12-hour format (01-12)
+- **"mm"** → Minutes (00-59)
+- **"ss"** → Seconds (00-59)
+- **"SSS"** → Milliseconds
+- **"a"** → AM/PM marker
+
+Common Patterns:
+------------------------------------------------------------------------------------------------
+| Pattern            | Description                |
+|--------------------|----------------------------|
+| "HH:mm"            | Hour:Minute (24-hour)      |
+| "HH:mm:ss"         | Hour:Minute:Second         |
+| "hh:mm a"          | Hour:Minute AM/PM (12-hour)|
+| "HH:mm:ss.SSS"     | Hour:Minute:Second:Millis  |
+
+6)Java 8 - LocalTime: Parsing String to LocalTime
+================================================
+
+1) **Basic Parsing**:
+------------------------------------------------------------------------------------------------
+String timeStr = "14:30:00";  
+LocalTime parsedTime = LocalTime.parse(timeStr, DateTimeFormatter.ofPattern("HH:mm:ss"));  
+// Output: LocalTime[14:30]
+
+2) **Parsing with Milliseconds**:
+------------------------------------------------------------------------------------------------
+String timeStrMillis = "14:30:15.500";  
+LocalTime parsedMillis = LocalTime.parse(timeStrMillis, DateTimeFormatter.ofPattern("HH:mm:ss.SSS"));  
+// Output: LocalTime[14:30:15.500]
+
+3) **Parsing with 12-hour AM/PM**:
+------------------------------------------------------------------------------------------------
+String timeStrAMPM = "02:30 PM";  
+LocalTime parsedAMPM = LocalTime.parse(timeStrAMPM, DateTimeFormatter.ofPattern("hh:mm a"));  
+// Output: LocalTime[14:30]
+
+Error Handling:
+------------------------------------------------------------------------------------------------
+try {
+    String invalidStr = "25:61:00";  // Invalid time (hour > 23, minute > 59)
+    LocalTime invalidTime = LocalTime.parse(invalidStr, DateTimeFormatter.ofPattern("HH:mm:ss"));
+} catch (DateTimeParseException e) {
+    System.out.println("Invalid time format: " + e.getMessage());
+    // Output: Invalid time format: Text '25:61:00' could not be parsed at index 0
+}
+
+Note:
+------------------------------------------------------------------------------------------------
+- **"HH"** → 24-hour format (00-23)
+- **"hh"** → 12-hour format (01-12)
+- **"mm"** → Minutes (00-59)
+- **"ss"** → Seconds (00-59)
+- **"SSS"** → Milliseconds
+- **"a"** → AM/PM marker
+
+
+7)Java 8 - LocalTime: Useful Methods
+========================================================
+
+Method                            | Description
+----------------------------------|--------------------------------------------------------
+toSecondOfDay()                   | Returns the total seconds since midnight (00:00:00)
+                                  | Example: LocalTime time = LocalTime.of(14, 30);
+                                  | int seconds = time.toSecondOfDay(); // 52200
+
+toNanoOfDay()                     | Returns the total nanoseconds since midnight (00:00:00)
+                                  | Example: LocalTime time = LocalTime.of(14, 30, 15);
+                                  | long nanoseconds = time.toNanoOfDay(); // 52215000000000
+
+
+
+4)Sample Time Formats
+==============================================
+
+1)Letters Description
+----------------------------------------------------------------------------------
+| Letter | Meaning                             | Example Value   |
+|--------|--------------------------------------|-----------------|
+| H      | Hour in 24-hour format (0–23)        | 14              |
+| h      | Hour in 12-hour format (1–12)        | 02              |
+| m      | Minute (0–59)                        | 30              |
+| s      | Second (0–59)                        | 45              |
+| S      | Millisecond (0–999)                  | 123             |
+| n      | Nanosecond (0–999,999,999)           | 456000000       |
+| a      | AM/PM marker                         | AM or PM        |
+
+
+
+| Format String           | Description                    | Sample Output         |
+|-------------------------|--------------------------------|------------------------|
+| "HH:mm"                 | 24-hour time, no seconds       | 14:30                 |
+| "HH:mm:ss"              | 24-hour time with seconds      | 14:30:45              |
+| "hh:mm a"               | 12-hour with AM/PM             | 02:30 PM              |
+| "HH:mm:ss.SSS"          | 24-hour with milliseconds      | 14:30:45.123          |
+| "HH:mm:ss.nnnnnnnnn"    | 24-hour with nanoseconds       | 14:30:45.123456789    |
+
+
+5)Java 8 - LocalTime: Constants
+==============================
+
+Constant                        | Description
+--------------------------------|-------------------------------------------------------
+LocalTime.MIN                   | The earliest time, 00:00:00.000000000 (midnight)
+                                | Example: LocalTime minTime = LocalTime.MIN;  // 00:00
+
+LocalTime.MAX                   | The latest time, 23:59:59.999999999 (one nanosecond before midnight of the next day)
+                                | Example: LocalTime maxTime = LocalTime.MAX;  // 23:59:59.999999999
+
+LocalTime.MIDNIGHT              | The time 00:00:00.000000000 (midnight)
+                                | Example: LocalTime midnight = LocalTime.MIDNIGHT;  // 00:00
+
+LocalTime.NOON                  | The time 12:00:00.000000000 (noon)
+                                | Example: LocalTime noonTime = LocalTime.NOON;  // 12:00
+
+
+
+
+
+
+
+
+
+
