@@ -49,6 +49,7 @@ date.getMonthValue();  // 5
 date.getDayOfMonth();  // 2
 date.getDayOfWeek();   // FRIDAY
 date.lengthOfMonth();  // 31
+date.getDayOfYear()    //1-366
 
 3)Java 8 - LocalDate Operations (Add / Subtract Dates)
 ====================================================
