@@ -270,6 +270,7 @@ LocalDate d2 = LocalDate.of(2025, 5, 10);
 
 Period p = Period.between(d1, d2);
 
+System.out.println("Period: " + p);              // prints as P5Y1M25D
 System.out.println("Years : " + p.getYears());   // 5
 System.out.println("Months: " + p.getMonths());  // 1
 System.out.println("Days  : " + p.getDays());    // 25
