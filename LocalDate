@@ -54,6 +54,7 @@ date.getDayOfYear()    //1-366
 3)Java 8 - LocalDate Operations (Add / Subtract Dates)
 ====================================================
 LocalDate today = LocalDate.now();  // Current date (e.g., 2025-05-03)
+String todayDate=today.toString();  //2025-05-03 (String)
 
 
 Adding Days / Months / Years:
