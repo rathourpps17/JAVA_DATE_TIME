@@ -1,13 +1,14 @@
 Java 8 - LocalDate Study Notes
-==============================
+=======================================================
 
 1)Definition:
-========================================================
+===========================================================
 -LocalDate is a part of the Java 8 Date and Time API (java.time.*) and represents a date 
  without time and timezone. 
-
-Example: 2025-05-02(only format that LocalDate Understands)
 -ISO 8601 — International Organization for Standardization, Standard Number 8601
+
+ Example: 2025-05-02(yyyy-MM-dd)   --only format that LocalDate Understands
+
 
 2)Import:
 =================================================
@@ -16,67 +17,59 @@ import java.time.LocalDate;
 
 3)METHODS:
 ================================================
+
 Java 8 - LocalDate: Creating Instances
 ======================================
-
 | Method                                                | Description                             |
 |-------------------------------------------------------|-----------------------------------------|
-| `LocalDate.now()`                                     | Gets the current date                   |
-| `LocalDate.of(int year, int month, int dayOfMonth)`   | Creates a specific date                 |
-| `LocalDate.parse(CharSequence text)`                  | Parses a date from a string             |
+| LocalDate.now()                                       | Gets the current date                   |
+| LocalDate.of(int year, int month, int dayOfMonth)     | Creates a specific date                 |
+| LocalDate.parse(CharSequence text)                    | Parses a date from a string             |
 
 Examples:
 ---------------------------------------------------------
-1) **Current Date**:
-----------------------
-LocalDate today = LocalDate.now();  // Gets the current date based on the system's clock.
-
-2) **Specific Date**:
-----------------------
-LocalDate date = LocalDate.of(2025, 5, 2);  // Creates a date for May 2, 2025.
-
-3) **Parse from String**:
---------------------------
-LocalDate parsed = LocalDate.parse("2025-05-02");  // Parses the date string into a LocalDate (ISO format: yyyy-MM-dd).
+LocalDate today = LocalDate.now();  -- Gets the current date based on the system's clock.
+LocalDate date = LocalDate.of(2025, 5, 2);  --Creates a date for May 2, 2025.
+LocalDate parsed = LocalDate.parse("2025-05-02");  --Parses the date string into a LocalDate (ISO format: yyyy-MM-dd).
 
 2) Getting Date Components:
 =============================================
 LocalDate date = LocalDate.of(2025, 5, 2);
-
 date.getYear();        // 2025
 date.getMonth();       // MAY
 date.getMonthValue();  // 5
 date.getDayOfMonth();  // 2
 date.getDayOfWeek();   // FRIDAY
 date.lengthOfMonth();  // 31
-date.getDayOfYear()    //1-366
+date.getDayOfYear()    //122
+
 
 3)Java 8 - LocalDate Operations (Add / Subtract Dates)
 ====================================================
 LocalDate today = LocalDate.now();  // Current date (e.g., 2025-05-03)
+
 String todayDate=today.toString();  //2025-05-03 (String)
 
-
-Adding Days / Months / Years:
-----------------------------------------------------
 LocalDate tomorrow = today.plusDays(1);      // Add 1 day to today
 LocalDate nextWeek = today.plusWeeks(1);     // Add 1 week to today
 LocalDate nextMonth = today.plusMonths(1);   // Add 1 month to today
 LocalDate nextYear = today.plusYears(1);     // Add 1 year to today
 
-Subtracting Days / Weeks / Months / Years:
--------------------------------------------------------------
 LocalDate yesterday = today.minusDays(1);      // Subtract 1 day from today
 LocalDate lastWeek = today.minusWeeks(1);      // Subtract 1 week from today
 LocalDate lastMonth = today.minusMonths(1);    // Subtract 1 month from today
 LocalDate lastYear = today.minusYears(1);      // Subtract 1 year from today
 
+LocalDate today = LocalDate.of(2025, 5, 2);
+LocalDate newDate = today.withDayOfMonth(15);   // 2025-05-15
+LocalDate newDate = today.withMonth(12);    // 2025-12-02
+LocalDate newDate = today.withYear(2023);   // 2023-05-02
+
+
 4)Java 8 - LocalDate Formatting using DateTimeFormatter/ Parsing LocalDate To String and ViceVersa
 ========================================================================================================
-
 1) Formatting and Parsing Example:
 ----------------------------------------------------------------------------------------------------
-
 LocalDate date = LocalDate.of(2025, 5, 3);  // Example LocalDate
 
 // Format: dd/MM/yyyy
@@ -88,10 +81,6 @@ System.out.println("Formatted Date (dd/MM/yyyy): " + formatted1);  // Output: 03
 LocalDate parsedDate1 = LocalDate.parse(formatted1, formatter1);  
 System.out.println("Parsed LocalDate: " + parsedDate1);  // Output: 2025-05-03
 
-
-2) Handling Multiple Formats:
----------------------------------------------------------------------------------------------------
-
 // Format: yyyy-MM-dd (ISO format)
 DateTimeFormatter formatter2 = DateTimeFormatter.ISO_LOCAL_DATE;
 String formatted2 = date.format(formatter2);  
@@ -100,10 +89,6 @@ System.out.println("Formatted Date (yyyy-MM-dd): " + formatted2);  // Output: 20
 // Parse back from ISO format
 LocalDate parsedDate2 = LocalDate.parse(formatted2, formatter2);  
 System.out.println("Parsed LocalDate: " + parsedDate2);  // Output: 2025-05-03
-
-
-3) Example with Full Date and Time:
------------------------------------------------------------------------------------------------------------
 
 // Format: EEEE, MMMM dd yyyy
 DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("EEEE, MMMM dd yyyy");
@@ -115,10 +100,8 @@ DateTimeFormatter formatter4 = DateTimeFormatter.ofPattern("EEEE, MMMM dd yyyy")
 LocalDate parsedDate3 = LocalDate.parse(formatted3, formatter4);  
 System.out.println("Parsed LocalDate: " + parsedDate3);  // Output: 2025-05-03
 
-
-4) Error Handling (Parsing Invalid Dates):
+Error Handling (Parsing Invalid Dates):
 -----------------------------------------------------------------------------------------------------------
-
 // Incorrect format example
 String invalidDateString = "2025-05-03";  // ISO format
 
@@ -128,10 +111,8 @@ try {
     System.out.println("Error: " + e.getMessage());
 }
 
-
 Common Patterns:
------------------------------------------------------------------------
-
+---------------------------------------------------------------------------------------
 Pattern           | Meaning                  | Example
 ------------------|---------------------------|-------------------
 yyyy-MM-dd        | Year-Month-Day            | 2025-05-03
@@ -143,40 +124,26 @@ EEEE, MMMM dd yyyy| Full Day and Month Name   | Saturday, May 03 2025
 
 5)Java 8 - Comparing LocalDate Objects
 ============================================================
-
 Create sample dates:
 ------------------------------------------------------
 LocalDate date1 = LocalDate.of(2025, 5, 2);
 LocalDate date2 = LocalDate.of(2025, 5, 10);
 LocalDate date3 = LocalDate.of(2025, 5, 2);  // Same as date1
 
-1) isBefore()
-------------------------------------------------------
 // Checks if date1 comes before date2
 boolean isBefore = date1.isBefore(date2);
 System.out.println("Is date1 before date2? " + isBefore);  // true
 
-2) isAfter()
-------------------------------------------------------
 // Checks if date1 comes after date2
 boolean isAfter = date1.isAfter(date2);
 System.out.println("Is date1 after date2? " + isAfter);  // false
 
-3) equals()
-------------------------------------------------------
 // Checks if two dates are exactly equal
 boolean isEqual = date1.equals(date2);
 System.out.println("Is date1 equal to date2? " + isEqual);  // false
 
 boolean isEqual2 = date1.equals(date3);
 System.out.println("Is date1 equal to date3? " + isEqual2);  // true
-
-4) Compare using compareTo():
------------------------------------------------------------
-// Returns:
-//   0 if both dates are equal
-//  <0 if date1 is before date2
-//  >0 if date1 is after date2
 
 int comparison1 = date1.compareTo(date2);
 System.out.println("date1 compared to date2: " + comparison1);  // Output: -8
@@ -187,7 +154,12 @@ System.out.println("date2 compared to date1: " + comparison2);  // Output: 8
 int comparison3 = date1.compareTo(date3);
 System.out.println("date1 compared to date3: " + comparison3);  // Output: 0
 
-5) Using equals() vs ==
+// Returns:
+//   0 if both dates are equal
+//  <0 if date1 is before date2
+//  >0 if date1 is after date2
+
+Using equals() vs ==
 -----------------------------------------------------------
 // Always use equals() for date object comparison.
 // '==' checks reference equality, not value equality.
@@ -203,52 +175,28 @@ System.out.println(a.equals(b));  // true  (same date value)
 Leap Year Example:
 ------------------------------------------------------------
 LocalDate date = LocalDate.of(2024, 2, 1);  // February in a leap year
+date.lengthOfMonth()  // 29
+date.lengthOfYear()   // 366
+date.isLeapYear()     // true
 
-System.out.println("Length of Month: " + date.lengthOfMonth());  // 29
-System.out.println("Length of Year : " + date.lengthOfYear());   // 366
-System.out.println("Is Leap Year   : " + date.isLeapYear());     // true
-
-Non-Leap Year Example:
-------------------------------------------------------------
 LocalDate date2 = LocalDate.of(2023, 2, 1);  // February in a non-leap year
+date2.lengthOfMonth()  // 28
+date2.lengthOfYear()   // 365
+date2.isLeapYear()     // false
 
-System.out.println("Length of Month: " + date2.lengthOfMonth());  // 28
-System.out.println("Length of Year : " + date2.lengthOfYear());   // 365
-System.out.println("Is Leap Year   : " + date2.isLeapYear());     // false
-
-
-Month Length Comparison:
-------------------------------------------------------------
 
 LocalDate jan = LocalDate.of(2025, 1, 1);
 LocalDate apr = LocalDate.of(2025, 4, 1);
 LocalDate febLeap = LocalDate.of(2024, 2, 1);  // Leap year
 LocalDate febNonLeap = LocalDate.of(2023, 2, 1); // Non-leap year
+jan.lengthOfMonth()   // 31
+apr.lengthOfMonth()      // 30
+febLeap.lengthOfMonth()  // 29
+febNonLeap.lengthOfMonth() // 28
 
-System.out.println("January has: " + jan.lengthOfMonth() + " days");    // 31
-System.out.println("April has: " + apr.lengthOfMonth() + " days");      // 30
-System.out.println("Feb 2024 has: " + febLeap.lengthOfMonth() + " days"); // 29
-System.out.println("Feb 2023 has: " + febNonLeap.lengthOfMonth() + " days"); // 28
+LocalDate.of(2024, 1, 1).isLeapYear()  // true
+LocalDate.of(2025, 1, 1).isLeapYear()  // false
 
-
-Check leap year directly using static method:
------------------------------------------------------------------
-
-System.out.println("Is 2024 a leap year? " + LocalDate.of(2024, 1, 1).isLeapYear());  // true
-System.out.println("Is 2025 a leap year? " + LocalDate.of(2025, 1, 1).isLeapYear());  // false
-
-Leap Year Rule (Info):
-------------------------------------------------------------
-A year is a leap year if:
-- It is divisible by 4
-- But not divisible by 100
-- Unless divisible by 400
-
-Examples:
-Year 2000 → Leap (divisible by 400) ✅  
-Year 1900 → Not leap (divisible by 100, but not 400) ❌  
-Year 2024 → Leap (divisible by 4) ✅  
-Year 2025 → Not leap ❌  
 
 Java 8 - Period Class (Date Difference in Years, Months, Days)
 ===============================================================
@@ -256,46 +204,30 @@ Java 8 - Period Class (Date Difference in Years, Months, Days)
 ------------------------------------------------------------
 LocalDate start = LocalDate.of(2025, 1, 1);
 LocalDate end = LocalDate.of(2025, 5, 2);
-
 Period period = Period.between(start, end);  // Difference from start to end
-
-System.out.println("Years : " + period.getYears());   // 0
-System.out.println("Months: " + period.getMonths());  // 4
-System.out.println("Days  : " + period.getDays());    // 1
-
-2) Another Example with Year Difference:
-------------------------------------------------------------
+period.getYears()   // 0
+period.getMonths()  // 4
+period.getDays()    // 1
 
 LocalDate d1 = LocalDate.of(2020, 3, 15);
 LocalDate d2 = LocalDate.of(2025, 5, 10);
-
 Period p = Period.between(d1, d2);
-
-System.out.println("Period: " + p);              // prints as P5Y1M25D
-System.out.println("Years : " + p.getYears());   // 5
-System.out.println("Months: " + p.getMonths());  // 1
-System.out.println("Days  : " + p.getDays());    // 25
-
+p              // prints as P5Y1M25D
+p.getYears()  // 5
+p.getMonths()  // 1
+p.getDays()    // 25
 System.out.println(p);  // Output: P-5Y-1M-25D  //negative Period when d1>d2
 System.out.println(p);  // Output: P5Y1M25D     //positive Period when d2>d1
 
-3) Period.ZERO Constant:
-------------------------------------------------------------
 // A constant for a zero-length period
 Period zero = Period.ZERO;
-System.out.println("Zero period: " + zero);  // Output: P0D
+zero  --Output: P0D
 
-4) Adding/Subtracting Periods:
-------------------------------------------------------------
-
-LocalDate today = LocalDate.of(2025, 5, 2);
-Period addPeriod = Period.ofMonths(3);
-
-LocalDate futureDate = today.plus(addPeriod);  // Adds 3 months
-System.out.println("Future Date: " + futureDate);  // Output: 2025-08-02
-
-LocalDate pastDate = today.minus(addPeriod);   // Subtracts 3 months
-System.out.println("Past Date  : " + pastDate);  // Output: 2025-02-02
+//Add and Subtract period to a date
+LocalDate date = LocalDate.of(2025, 5, 2);
+Period period = Period.ofMonths(3);  
+date.plus(period);  --Output: 2025-08-02  --Adds 3 months
+date.minus(period);  --Output: 2025-02-02  --Subtracts 3 months
 
 
 5) Creating Periods Manually:
