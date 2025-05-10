@@ -10,6 +10,23 @@ Java 8 - LocalDate Study Notes
  Example: 2025-05-02(yyyy-MM-dd)   --only format that LocalDate Understands
 
 
+Interfaces Implemented by LocalDate class
+========================================================================
+
+1.Serializable: Allows LocalDate objects to be serialized, enabling them to be converted into a byte stream and saved or transmitted.
+
+2.Comparable<ChronoLocalDate>: Enables comparison between LocalDate instances and other ChronoLocalDate objects, facilitating sorting and ordering operations.
+
+3.ChronoLocalDate: Represents a date without time-of-day or time-zone in an arbitrary chronology, intended for advanced globalization use cases.
+                    Provides methods for accessing date fields (like year, month, day), adjusting the date, and converting to other date-time representations.
+
+4.Temporal: Defines methods for manipulating and querying date-time objects, such as adding or subtracting time units and accessing specific fields.
+
+5.TemporalAccessor: Provides methods for querying individual date-time fields, like year, month, day, etc., without modifying the underlying date-time object.
+
+6.TemporalAdjuster:Allows for adjusting a Temporal object (like LocalDate) by applying a specific adjustment, such as finding the next Monday or the last day of the month.
+
+
 2)Import:
 =================================================
 import java.time.LocalDate;
