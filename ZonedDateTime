@@ -91,6 +91,70 @@ ZonedDateTime withMinute = now.withMinute(45); // 2025-05-10T17:45:45.000+05:30[
 ZonedDateTime withSecond = now.withSecond(30); // 2025-05-10T17:30:30.000+05:30[Asia/Kolkata]
 ZonedDateTime withNano = now.withNano(500000000); // 2025-05-10T17:30:45.500+05:30[Asia/Kolkata]
 
+4)Comaprision methods
+======================================================================================
+ZonedDateTime now = ZonedDateTime.now(); // 2025-05-10T17:30:45.000+05:30[Asia/Kolkata]
+ZonedDateTime anotherTime = ZonedDateTime.of(2025, 5, 10, 17, 30, 45, 0, ZoneId.of("Asia/Kolkata")); // 2025-05-10T17:30:45.000+05:30[Asia/Kolkata]
+ZonedDateTime future = now.plusDays(10); // 2025-05-20T17:30:45.000+05:30[Asia/Kolkata]
+ZonedDateTime past = now.minusDays(10); // 2025-05-01T17:30:45.000+05:30[Asia/Kolkata]
+
+ZonedDateTime sameTime = now.withZoneSameInstant(ZoneId.of("America/New_York")); // 2025-05-10T08:00:45.000-04:00[America/New_York]
+ZonedDateTime differentZone = now.withZoneSameLocal(ZoneId.of("Europe/London")); // 2025-05-10T17:30:45.000+01:00[Europe/London]
+boolean isAfter = now.isAfter(past); // true
+boolean isBefore = now.isBefore(future); // true
+boolean isEqual = now.isEqual(sameTime); // true
+boolean equals = now.equals(anotherTime); // true
+int compareTo = now.compareTo(anotherTime); // 0
+
+ZonedDateTime zdt1 = ZonedDateTime.of(2025, 5, 10, 17, 30, 0, 0, ZoneId.of("Asia/Kolkata"));
+ZonedDateTime zdt2 = ZonedDateTime.of(2025, 5, 10, 17, 30, 0, 0, ZoneId.of("Europe/London"));
+System.out.println(zdt1 == zdt2); // Output: false
+
+5)ZonedDateTime and String conversions
+===========================================================================================
+ZonedDateTime zdt = ZonedDateTime.now(); // 2025-05-10T17:30:45.000+05:30[Asia/Kolkata]
+
+--Convert to String
+String isoZoned = zdt.format(DateTimeFormatter.ISO_ZONED_DATE_TIME); // 2025-05-10T17:30:45+05:30[Asia/Kolkata]
+String isoDateTime = zdt.format(DateTimeFormatter.ISO_DATE_TIME); // 2025-05-10T17:30:45+05:30
+String isoInstant = zdt.format(DateTimeFormatter.ISO_INSTANT); // 2025-05-10T12:00:45Z
+String customFormat = zdt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss VV O")); // 10-05-2025 17:30:45 Asia/Kolkata GMT+5:30
+String customFormat2 = zdt.format(DateTimeFormatter.ofPattern("dd-MMM-yyyy hh:mm:ss a VV")); // 10-May-2025 05:30:45 PM Asia/Kolkata
+
+--convert back to ZonedDateTime
+String isoZoned = "2025-05-10T17:30:45+05:30[Asia/Kolkata]";
+DateTimeFormatter formatter1 = DateTimeFormatter.ISO_ZONED_DATE_TIME;
+ZonedDateTime zdt1 = ZonedDateTime.parse(isoZoned, formatter1); // 2025-05-10T17:30:45+05:30[Asia/Kolkata]
+
+String customFormat = "10-05-2025 17:30:45 Asia/Kolkata GMT+5:30";
+DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss VV O");
+ZonedDateTime zdt2 = ZonedDateTime.parse(customFormat, formatter2); // 2025-05-10T17:30:45+05:30[Asia/Kolkata]
+
+6)Other conversions
+================================================================================================
+ZonedDateTime zdt = ZonedDateTime.now(); // 2025-05-10T17:30:45.000+05:30[Asia/Kolkata]
+LocalDate localDate = zdt.toLocalDate(); // 2025-05-10
+LocalTime localTime = zdt.toLocalTime(); // 17:30:45.000
+LocalDateTime localDateTime = zdt.toLocalDateTime(); // 2025-05-10T17:30:45.000
+
+7)Period and Duration Calculations
+=====================================================================================
+ZonedDateTime start = ZonedDateTime.of(2025, 5, 3, 10, 0, 0, 0, ZoneId.of("Asia/Kolkata")); // 2025-05-03T10:00+05:30[Asia/Kolkata]
+ZonedDateTime end = ZonedDateTime.of(2025, 5, 10, 15, 30, 0, 0, ZoneId.of("Asia/Kolkata")); // 2025-05-10T15:30+05:30[Asia/Kolkata]
+Duration duration = Duration.between(start, end); // PT5DT5H30M
+Period period = Period.between(start.toLocalDate(), end.toLocalDate()); // P7D
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
