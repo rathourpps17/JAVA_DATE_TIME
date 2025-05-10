@@ -61,7 +61,7 @@ date.lengthOfMonth();  // 31
 date.getDayOfYear()    //122
 
 
-3)Java 8 - LocalDate Operations (Add / Subtract Dates)
+3)Java 8 - LocalDate Operations (Date Manipulation)
 ====================================================
 LocalDate today = LocalDate.now();  // Current date (e.g., 2025-05-03)
 
@@ -81,8 +81,14 @@ LocalDate today = LocalDate.of(2025, 5, 2);
 LocalDate newDate = today.withDayOfMonth(15);   // 2025-05-15
 LocalDate newDate = today.withMonth(12);    // 2025-12-02
 LocalDate newDate = today.withYear(2023);   // 2023-05-02
-
-
+LocalDate lastDayOfMonth = date.withDayOfMonth(date.lengthOfMonth());  //2025-05-31
+LocalDate firstDayOfYear = date.withDayOfYear(1);  // 2025-01-01
+LocalDate lastDayOfYear = date.withDayOfYear(date.lengthOfYear()); // 2025-12-31
+Edge Case - Leap Year:
+    LocalDate leapFeb = LocalDate.of(2024, 2, 11);
+    LocalDate lastDayLeapFeb = leapFeb.withDayOfMonth(leapFeb.lengthOfMonth());  // 2024-02-29
+ 
+ 
 4)Java 8 - LocalDate Formatting using DateTimeFormatter/ Parsing LocalDate To String and ViceVersa
 ========================================================================================================
 1) Formatting and Parsing Example:
@@ -233,6 +239,7 @@ p              // prints as P5Y1M25D
 p.getYears()  // 5
 p.getMonths()  // 1
 p.getDays()    // 25
+
 System.out.println(p);  // Output: P-5Y-1M-25D  //negative Period when d1>d2
 System.out.println(p);  // Output: P5Y1M25D     //positive Period when d2>d1
 
@@ -246,75 +253,15 @@ Period period = Period.ofMonths(3);
 date.plus(period);  --Output: 2025-08-02  --Adds 3 months
 date.minus(period);  --Output: 2025-02-02  --Subtracts 3 months
 
-
-5) Creating Periods Manually:
-------------------------------------------------------------
-
-Period oneYear = Period.ofYears(1);
-Period threeMonths = Period.ofMonths(3);
-Period weeksNotSupported = Period.ofWeeks(2);  // Converts to 14 days
-Period mixed = Period.of(1, 2, 15);  // 1 year, 2 months, 15 days
-
-System.out.println("Mixed Period: " + mixed);  // Output: P1Y2M15D
-
-
-6) Period.toString() Output Format:
-------------------------------------------------------------
-
-Period p = Period.of(1, 6, 10);
-System.out.println(p);  // Output: P1Y6M10D
-
-7) Edge Cases:
-------------------------------------------------------------
-
 LocalDate start = LocalDate.of(2024, 2, 28);  // Leap year
 LocalDate end = LocalDate.of(2025, 3, 1);
-
 Period p = Period.between(start, end);
 System.out.println("Years : " + p.getYears());   // 1
 System.out.println("Months: " + p.getMonths());  // 0
 System.out.println("Days  : " + p.getDays());    // 1
 
-Java 8 - Getting First and Last Day of Month using LocalDate
-=============================================================
-1) Setup a Sample Date:
-------------------------------------------------------------
-LocalDate date = LocalDate.of(2025, 5, 2);  // May 2, 2025
 
-2) First Day of Month:
-------------------------------------------------------------
-LocalDate firstDayOfMonth = date.withDayOfMonth(1);
-
-System.out.println("First Day of Month: " + firstDayOfMonth);  // 2025-05-01
-
-3) Last Day of Month:
-------------------------------------------------------------
-LocalDate lastDayOfMonth = date.withDayOfMonth(date.lengthOfMonth());
-
-System.out.println("Last Day of Month: " + lastDayOfMonth);  // 2025-05-31
-
-4) First and Last Day of Year:
-------------------------------------------------------------
-LocalDate firstDayOfYear = date.withDayOfYear(1);
-System.out.println("First Day of Year: " + firstDayOfYear);  // 2025-01-01
-
-LocalDate lastDayOfYear = date.withDayOfYear(date.lengthOfYear());
-System.out.println("Last Day of Year: " + lastDayOfYear);    // 2025-12-31
-
-5) Edge Case - Leap Year:
-------------------------------------------------------------
-LocalDate leapFeb = LocalDate.of(2024, 2, 11);
-
-LocalDate lastDayLeapFeb = leapFeb.withDayOfMonth(leapFeb.lengthOfMonth());
-System.out.println("Last Day of Feb 2024: " + lastDayLeapFeb);  // 2024-02-29
-
-6) General Tip:
-------------------------------------------------------------
-// date.withDayOfMonth(1) → always gives the first day of month
-// date.lengthOfMonth() → gives total number of days in that month
-
-
-Java 8 - Converting LocalDate to Other Formats (Essential Only)
+Java 8 - LocalDate and other format conversions
 ================================================================
 
 1) Using toString() Method:
