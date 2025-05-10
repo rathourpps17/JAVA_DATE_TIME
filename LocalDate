@@ -67,15 +67,15 @@ LocalDate today = LocalDate.now();  // Current date (e.g., 2025-05-03)
 
 String todayDate=today.toString();  //2025-05-03 (String)
 
-LocalDate tomorrow = today.plusDays(1);      // Add 1 day to today
-LocalDate nextWeek = today.plusWeeks(1);     // Add 1 week to today
-LocalDate nextMonth = today.plusMonths(1);   // Add 1 month to today
-LocalDate nextYear = today.plusYears(1);     // Add 1 year to today
+LocalDate tomorrow = today.plusDays(1);      // Add 1 day to today //2025-05-11
+LocalDate nextWeek = today.plusWeeks(1);     // Add 1 week to today //2025-05-17
+LocalDate nextMonth = today.plusMonths(1);   // Add 1 month to today  //2025-06-10
+LocalDate nextYear = today.plusYears(1);     // Add 1 year to today   //2026-05-10
 
-LocalDate yesterday = today.minusDays(1);      // Subtract 1 day from today
-LocalDate lastWeek = today.minusWeeks(1);      // Subtract 1 week from today
-LocalDate lastMonth = today.minusMonths(1);    // Subtract 1 month from today
-LocalDate lastYear = today.minusYears(1);      // Subtract 1 year from today
+LocalDate yesterday = today.minusDays(1);      // Subtract 1 day from today  //2025-05-09
+LocalDate lastWeek = today.minusWeeks(1);      // Subtract 1 week from today  //2025-05-03
+LocalDate lastMonth = today.minusMonths(1);    // Subtract 1 month from today  //2025-04-10
+LocalDate lastYear = today.minusYears(1);      // Subtract 1 year from today  //2024-05-10
 
 LocalDate today = LocalDate.of(2025, 5, 2);
 LocalDate newDate = today.withDayOfMonth(15);   // 2025-05-15
@@ -87,111 +87,43 @@ LocalDate lastDayOfYear = date.withDayOfYear(date.lengthOfYear()); // 2025-12-31
 Edge Case - Leap Year:
     LocalDate leapFeb = LocalDate.of(2024, 2, 11);
     LocalDate lastDayLeapFeb = leapFeb.withDayOfMonth(leapFeb.lengthOfMonth());  // 2024-02-29
- 
- 
-4)Java 8 - LocalDate Formatting using DateTimeFormatter/ Parsing LocalDate To String and ViceVersa
-========================================================================================================
-1) Formatting and Parsing Example:
-----------------------------------------------------------------------------------------------------
-LocalDate date = LocalDate.of(2025, 5, 3);  // Example LocalDate
-
-// Format: dd/MM/yyyy
-DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-String formatted1 = date.format(formatter1);  
-System.out.println("Formatted Date (dd/MM/yyyy): " + formatted1);  // Output: 03/05/2025
-
-// Parse formatted string back to LocalDate
-LocalDate parsedDate1 = LocalDate.parse(formatted1, formatter1);  
-System.out.println("Parsed LocalDate: " + parsedDate1);  // Output: 2025-05-03
-
-// Format: yyyy-MM-dd (ISO format)
-DateTimeFormatter formatter2 = DateTimeFormatter.ISO_LOCAL_DATE;
-String formatted2 = date.format(formatter2);  
-System.out.println("Formatted Date (yyyy-MM-dd): " + formatted2);  // Output: 2025-05-03
-
-// Parse back from ISO format
-LocalDate parsedDate2 = LocalDate.parse(formatted2, formatter2);  
-System.out.println("Parsed LocalDate: " + parsedDate2);  // Output: 2025-05-03
-
-// Format: EEEE, MMMM dd yyyy
-DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("EEEE, MMMM dd yyyy");
-String formatted3 = date.format(formatter3);  
-System.out.println("Formatted Date (Full Day and Month Name): " + formatted3);  // Output: Saturday, May 03 2025
-
-// Parse back from the full date format
-DateTimeFormatter formatter4 = DateTimeFormatter.ofPattern("EEEE, MMMM dd yyyy");
-LocalDate parsedDate3 = LocalDate.parse(formatted3, formatter4);  
-System.out.println("Parsed LocalDate: " + parsedDate3);  // Output: 2025-05-03
-
-Error Handling (Parsing Invalid Dates):
------------------------------------------------------------------------------------------------------------
-// Incorrect format example
-String invalidDateString = "2025-05-03";  // ISO format
-
-try {
-    LocalDate parsedDate4 = LocalDate.parse(invalidDateString, formatter3);  // Will throw DateTimeParseException
-} catch (Exception e) {
-    System.out.println("Error: " + e.getMessage());
-}
-
-Common Patterns:
----------------------------------------------------------------------------------------
-Pattern           | Meaning                  | Example
-------------------|---------------------------|-------------------
-yyyy-MM-dd        | Year-Month-Day            | 2025-05-03
-dd/MM/yyyy        | Day/Month/Year            | 03/05/2025
-MM-dd-yyyy        | Month-Day-Year            | 05-03-2025
-MMM dd, yyyy      | Short Month format        | May 03, 2025
-EEEE, MMMM dd yyyy| Full Day and Month Name   | Saturday, May 03 2025
 
 
-5)Java 8 - Comparing LocalDate Objects
+Java 8 - Comparing LocalDate Objects
 ============================================================
-Create sample dates:
-------------------------------------------------------
 LocalDate date1 = LocalDate.of(2025, 5, 2);
 LocalDate date2 = LocalDate.of(2025, 5, 10);
 LocalDate date3 = LocalDate.of(2025, 5, 2);  // Same as date1
 
-// Checks if date1 comes before date2
-boolean isBefore = date1.isBefore(date2);
-System.out.println("Is date1 before date2? " + isBefore);  // true
+--Checks if date1 comes before date2
+boolean isBefore = date1.isBefore(date2);  // true
 
-// Checks if date1 comes after date2
-boolean isAfter = date1.isAfter(date2);
-System.out.println("Is date1 after date2? " + isAfter);  // false
+--Checks if date1 comes after date2
+boolean isAfter = date1.isAfter(date2); // false
 
-// Checks if two dates are exactly equal
-boolean isEqual = date1.equals(date2);
-System.out.println("Is date1 equal to date2? " + isEqual);  // false
+--Checks if two dates are exactly equal
+boolean isEqual = date1.equals(date2); // false
+boolean isEqual2 = date1.equals(date3);  // true
 
-boolean isEqual2 = date1.equals(date3);
-System.out.println("Is date1 equal to date3? " + isEqual2);  // true
-
-int comparison1 = date1.compareTo(date2);
-System.out.println("date1 compared to date2: " + comparison1);  // Output: -8
-
-int comparison2 = date2.compareTo(date1);
-System.out.println("date2 compared to date1: " + comparison2);  // Output: 8
-
-int comparison3 = date1.compareTo(date3);
-System.out.println("date1 compared to date3: " + comparison3);  // Output: 0
-
-// Returns:
-//   0 if both dates are equal
-//  <0 if date1 is before date2
-//  >0 if date1 is after date2
+--Compare ise compareTo
+int comparison1 = date1.compareTo(date2);  // Output: -8
+int comparison2 = date2.compareTo(date1);  // Output: 8
+int comparison3 = date1.compareTo(date3);  // Output: 0
+--Returns:
+      0 if both dates are equal
+      <0 if date1 is before date2
+      >0 if date1 is after date2
 
 Using equals() vs ==
------------------------------------------------------------
-// Always use equals() for date object comparison.
-// '==' checks reference equality, not value equality.
+---------------------------------------------
+Always use equals() for date object comparison.
+'==' checks reference equality, not value equality.
 
 LocalDate a = LocalDate.of(2025, 5, 2);
 LocalDate b = LocalDate.of(2025, 5, 2);
-
 System.out.println(a == b);       // false (different objects in memory)
 System.out.println(a.equals(b));  // true  (same date value)
+
 
 6)Java 8 - LocalDate Leap Year, Month Length, and Year Length
 ============================================================
@@ -243,10 +175,6 @@ p.getDays()    // 25
 System.out.println(p);  // Output: P-5Y-1M-25D  //negative Period when d1>d2
 System.out.println(p);  // Output: P5Y1M25D     //positive Period when d2>d1
 
-// A constant for a zero-length period
-Period zero = Period.ZERO;
-zero  --Output: P0D
-
 //Add and Subtract period to a date
 LocalDate date = LocalDate.of(2025, 5, 2);
 Period period = Period.ofMonths(3);  
@@ -259,62 +187,99 @@ Period p = Period.between(start, end);
 System.out.println("Years : " + p.getYears());   // 1
 System.out.println("Months: " + p.getMonths());  // 0
 System.out.println("Days  : " + p.getDays());    // 1
+ 
+ 
+Java 8 -LocalDate and String conversion in different formats
+========================================================================================================
+LocalDate date = LocalDate.of(2025, 5, 3);  // Example LocalDate
 
+--LocalDate to String(Format: yyyy-MM-dd (ISO format))
+DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+String formatted1 = date.format(formatter1);     // Output: 03/05/2025(String datatype)
+String ToString=date.toString();                  // Output: 03/05/2025(String datatype)
+
+--converting back to LocalDate
+LocalDate parsedDate1 = LocalDate.parse(formatted1, formatter1);  // Output: 2025-05-03(LocalDate Datatype)
+
+--LocalDate to String Conversion(Using Constants of DateTimeFormatter)
+DateTimeFormatter formatter2 = DateTimeFormatter.ISO_LOCAL_DATE;
+String formatted2 = date.format(formatter2);   // Output: 2025-05-03
+
+--converting back to LocalDate
+LocalDate parsedDate2 = LocalDate.parse(formatted2, formatter2);  // Output: 2025-05-03
+
+--LocalDate to String Conversion(EEEE, MMMM dd yyyy)
+DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("EEEE, MMMM dd yyyy");
+String formatted3 = date.format(formatter3);  // Output: Saturday, May 03 2025
+
+--converting back to LocalDate
+LocalDate parsedDate3 = LocalDate.parse(formatted3, formatter4);   // Output: 2025-05-03
+
+--SOME OTHER FORMATS :
+-------------------------------------------------------------------------
+Pattern           | Meaning                  | Example                          
+------------------|---------------------------|--------------------------
+yyyy-MM-dd        | Year-Month-Day            | 2025-05-03
+dd/MM/yyyy        | Day/Month/Year            | 03/05/2025
+MM-dd-yyyy        | Month-Day-Year            | 05-03-2025
+MMM dd, yyyy      | Short Month format        | May 03, 2025
+EEEE, MMMM dd yyyy| Full Day and Month Name   | Saturday, May 03 2025
+
+--Error Handling (Parsing Invalid Dates):
+--------------------------------------------
+Incorrect format example:-
+  String invalidDateString = "2025-05-03";  // ISO format
+  try {
+      LocalDate parsedDate4 = LocalDate.parse(invalidDateString, formatter3);  // Will throw DateTimeParseException
+  }catch (Exception e) {
+    System.out.println("Error: " + e.getMessage());
+  }
 
 Java 8 - LocalDate and other format conversions
 ================================================================
-
-1) Using toString() Method:
-------------------------------------------------------------
 LocalDate date = LocalDate.of(2025, 5, 2);
-String str = date.toString();  // ISO format
 
-System.out.println("Date String: " + str);  // Output: 2025-05-02
+--Convert to String Using toString()
+String str = date.toString();  //ISO format   // Output: 2025-05-02
 
-2) Convert to Epoch Days:
-------------------------------------------------------------
+--Convert to EPoch Days
+long epochDay = date.toEpochDay();  // Total days since 1970-01-01  // Output: 19432 
 
-long epochDay = date.toEpochDay();  // Total days since 1970-01-01
-System.out.println("Epoch Days: " + epochDay); // Output: 19432
+--Convert to LocalDateTime
+LocalDateTime dateTime = date.atStartOfDay();  // Sets time to 00:00  // 2025-05-02T00:00
 
-
-3) Convert LocalDate to LocalDateTime:
-------------------------------------------------------------
-
-LocalDateTime dateTime = date.atStartOfDay();  // Sets time to 00:00
-System.out.println("LocalDateTime: " + dateTime);  // 2025-05-02T00:00
-
-4) Convert to ZonedDateTime / OffsetDateTime:
-------------------------------------------------------------
-ZonedDateTime zoned = date.atStartOfDay(ZoneId.systemDefault());
-OffsetDateTime offset = date.atStartOfDay().atOffset(ZoneOffset.UTC);
-
-System.out.println("ZonedDateTime : " + zoned);  // Output: 2025-05-02T00:00+02:00[Europe/Paris]
-System.out.println("OffsetDateTime: " + offset);  // Output: 2025-05-02T00:00:00Z
-
-5) Get LocalDate from LocalDateTime:
-------------------------------------
-
+--Convert Back to LocalDate
 LocalDateTime dateTime = LocalDateTime.of(2025, 5, 2, 15, 30);
-LocalDate dateFromDateTime = dateTime.toLocalDate();  // Extracts date part
+LocalDate dateFromDateTime = dateTime.toLocalDate();  // Extracts date part   // Output: 2025-05-02
 
-System.out.println("LocalDate from LocalDateTime: " + dateFromDateTime);  // Output: 2025-05-02
 
-Summary of Useful Methods:
-------------------------------------------------------------
-- `toString()` ➝ ISO string format (e.g., "2025-05-02")
-- `toEpochDay()` ➝ number of days since 1970-01-01
-- `atStartOfDay()` ➝ converts to `LocalDateTime` at midnight
-- `atStartOfDay(zone)` ➝ converts to `ZonedDateTime`
-- `atStartOfDay().atOffset()` ➝ converts to `OffsetDateTime`
+--Convert to ZonedDateTime
+ZonedDateTime zoned = date.atStartOfDay(ZoneId.systemDefault()); // Output: 2025-05-02T00:00+02:00[Europe/Paris]
+
+--Convert back to LocalDate
+ZonedDateTime zonedDateTime = ZonedDateTime.parse("2024-06-27T10:15:30+01:00[Europe/London]");  // 2024-06-27T10:15:30+01:00[Europe/London]
+LocalDate localDate = zonedDateTime.toLocalDate();  // 2024-06-27
+
+--convert to OffsetDateTime
+OffsetDateTime offset = date.atStartOfDay().atOffset(ZoneOffset.UTC);   // Output: 2025-05-02T00:00:00Z
+
+--Convert back LocalDate
+   OffsetDateTime offsetDateTime = OffsetDateTime.parse("2024-06-27T10:15:30+02:00");   // 2024-06-27T10:15:30+02:00
+   LocalDate localDate = offsetDateTime.toLocalDate();     2024-06-27
+
+--Summary of Useful Methods:
+  `toString()` ➝ ISO string format (e.g., "2025-05-02")
+  `toEpochDay()` ➝ number of days since 1970-01-01
+  `atStartOfDay()` ➝ converts to `LocalDateTime` at midnight
+  `atStartOfDay(zone)` ➝ converts to `ZonedDateTime`
+  `atStartOfDay().atOffset()` ➝ converts to `OffsetDateTime`
 
 
 4)Format Tables:-
 =======================
 
 1)Date formats
-------------------------------------------------------------
-
+------------------------------------------------------------------------------------
 | Format String      | Description                              | Sample Output     |
 |--------------------|------------------------------------------|-------------------|
 | "yyyy-MM-dd"       | ISO standard date format                 | 2025-05-04        |
@@ -328,8 +293,7 @@ Summary of Useful Methods:
 
 
 2)Letter Descriptions
-----------------------------------------------------------------------
-
+----------------------------------------------------------------
 | Letter | Meaning                        | Example Value      |
 |--------|--------------------------------|--------------------|
 | y      | Year                           | 2025               |
@@ -342,7 +306,6 @@ Summary of Useful Methods:
 
 5)Java 8 - LocalDate: Constants
 ===============================================================================
-
 Constant                        | Description
 --------------------------------|-------------------------------------------------------
 LocalDate.MIN                   | The minimum supported date, -999999999-01-01.  
