@@ -1,38 +1,45 @@
 ======================>LOCALDATETIME STUDY NOTES<=====================
 
 
-1)Java 8 - LocalDateTime
-======================
-
+Java 8 - LocalDateTime
+==================================================================================================================
 -LocalDateTime is a class in the java.time package that represents a date and time without a time zone.
 -It stores the date (year, month, day) and time (hour, minute, second, nanosecond), but it does not contain any information about the time zone or offset from UTC.
 -This is a widely used ISO-8601 format, ensuring clear separation between the date and time, with a T acting as a delimiter.
+-Key Features of LocalDateTime:
+    Immutable: LocalDateTime objects are immutable. Once created, they cannot be changed.
+    Time Zone Independent: It does not store or use any time zone information. It's useful when you only care about the local date and time.
+    Precision: It has nanosecond precision.
+-Uses: 
+    LocalDateTime is commonly used for working with dates and times in applications that do not require time zone support.
 
-Key Features of LocalDateTime:
----------------------------------------------------------------------------------------
-1) **Immutable**  
-   LocalDateTime objects are immutable. Once created, they cannot be changed.
 
-2) **Time Zone Independent**  
-   It does not store or use any time zone information. It's useful when you only care about the local date and time.
+Interfaces implemented by LocalDateTime
+====================================================================================================================
+--Serializable: Allows LocalDateTime objects to be serialized, enabling them to be converted into a byte stream and saved or transmitted.
 
-3) **Precision**  
-   It has nanosecond precision.
+--Comparable<ChronoLocalDateTime<?>>: Enables comparison between LocalDateTime instances and other ChronoLocalDateTime objects, facilitating sorting and ordering operations.
 
-Uses:
------------------------------------------------------------------------------------
-LocalDateTime is commonly used for working with dates and times in applications that do not require time zone support.
+--ChronoLocalDateTime<LocalDate>: -Represents a date-time without time-of-day or time-zone in an arbitrary chronology, intended for advanced globalization use cases.
+                                  -Provides methods for accessing date-time fields (like year, month, day, hour, minute, second), adjusting the date-time, 
+                                   and converting to other date-time representations.
 
-2)Imports
-======================================
+--Temporal: Defines methods for manipulating and querying date-time objects, such as adding or subtracting time units and accessing specific fields.
+
+--TemporalAccessor: Provides methods for querying individual date-time fields, like year, month, day, hour, minute, second, etc., without modifying the underlying date-time object.
+
+--TemporalAdjuster: Allows for adjusting a Temporal object (like LocalDateTime) by applying a specific adjustment, such as finding the next occurrence of a particular date-time.
+
+
+Imports
+================================================================================================
 import java.time.LocalDateTime;
 
-3)Methods
-=============================================================
+Methods
+===============================================================================================
 
 1)Creating Objects
-================================================
-
+==============================================================================================
 public static LocalDateTime now();
 LocalDateTime now = LocalDateTime.now();   // Example: 2025-05-02T14:30:00
 
@@ -45,9 +52,9 @@ LocalDateTime dateTime = LocalDateTime.of(2025, 5, 2, 14, 30, 0, 123456789);    
 public static LocalDateTime parse(CharSequence text);
 LocalDateTime parsed = LocalDateTime.parse("2025-05-02T14:30:00");    // Example: 2025-05-02T14:30:00
 
-2) Java 8 - LocalDateTime: Getting Components
-==================================
 
+2) Java 8 - LocalDateTime: Getting Components
+================================================================================================
 | Method Prototype                                  | Description                              |
 | ------------------------------------------------- | ---------------------------------------- |
 | public int getYear()                              | Retrieves the year.                      |
@@ -60,11 +67,9 @@ LocalDateTime parsed = LocalDateTime.parse("2025-05-02T14:30:00");    // Example
 | public int getSecond()                            | Retrieves second of the minute.          |
 | public int getNano()                              | Retrieves nanosecond (0-999,999,999).    |
 
-
 Examples:
 -----------------------------------------------------------------------------------------------------
 LocalDateTime localDateTime = LocalDateTime.of(2025, 5, 2, 10, 30, 0, 123456789); // 2025-05-02T10:30:00.123456789
-
 int year = localDateTime.getYear();             // 2025  
 int monthValue = localDateTime.getMonthValue(); // 5  
 Month month = localDateTime.getMonth();         // MAY  
@@ -107,7 +112,6 @@ int nano = localDateTime.getNano();             // 123456789
 Examples:
 ------------------------------------------------------------------------------------------------
 LocalDateTime staticDateTime = LocalDateTime.of(2025, 5, 2, 10, 30, 0, 0); // Static value
-
 LocalDateTime t1 = staticDateTime.plusYears(2);       // Output: 2027-05-02T10:30:00
 LocalDateTime t2 = staticDateTime.minusYears(2);      // Output: 2023-05-02T10:30:00
 LocalDateTime t3 = staticDateTime.plusMonths(3);      // Output: 2025-08-02T10:30:00
@@ -144,11 +148,10 @@ LocalDateTime dt4 = dt1;
 boolean isBefore = dt1.isBefore(dt2);  // true if dt1 is before dt2
 boolean isAfter = dt1.isAfter(dt2);    // false if dt1 is after dt2
 boolean isEqual = dt1.isEqual(dt2);    // false if dt1 equals dt2
-int comparison = dt1.compareTo(dt2);   // < 0 if dt1 is before, 0 if equal, > 0 if after
-
 boolean isEqual = dt1.equals(dt2);  // true, because dt1 and dt2 are the same
 boolean isNotEqual = dt1.equals(dt3);  // false, because dt1 and dt3 are different
 
+int comparison = dt1.compareTo(dt2);   // < 0 if dt1 is before, 0 if equal, > 0 if after
 int result1 = dt1.compareTo(dt2);  // result1 < 0 (dt1 is before dt2)
 int result2 = dt1.compareTo(dt3);  // result2 == 0 (dt1 equals dt3)
 int result3 = dt2.compareTo(dt1);  // result3 > 0 (dt2 is after dt1)
@@ -159,7 +162,6 @@ System.out.println(dt1 == dt4); // true (same object)
 
 5)Periods and Durations
 ===============================================
-
 1)Duration
 -------------------------------------------------------------------
 LocalDateTime start = LocalDateTime.of(2025, 5, 2, 10, 30);
@@ -177,91 +179,65 @@ long seconds = duration.getSeconds(); // 8100 (2 hours and 45 minutes)
 long nanoSeconds = duration.getNano(); // Remaining nanoseconds after full seconds
 
 
-2)Periods
--------------------------------------------------------------------
-LocalDate d1 = LocalDate.of(2025, 5, 2);
-LocalDate d2 = LocalDate.of(2026, 6, 10);
-
-// Calculate the period between two LocalDate objects
-Period period = Period.between(d1, d2);
-
-// Extract years, months, and days
-int years = period.getYears();   // 1
-int months = period.getMonths(); // 1
-int days = period.getDays();     // 8
-
-6)LOCALDATETIME FORMATTING AND PARSING EXAMPLES
+6)LOCALDATETIME and String conversion
 ========================================================================
-
-**1) Formatting (Parsing to String) and Parsing (String to LocalDateTime) Example:**
-----------------------------------------------------------------------------------------------------------------------------------------------
-
 LocalDateTime dateTime = LocalDateTime.of(2025, 5, 3, 14, 30);  // Example LocalDateTime
 
-// Format (Parsing to String): dd/MM/yyyy HH:mm
-DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-String formatted1 = dateTime.format(formatter1);  
-System.out.println("Formatted DateTime (dd/MM/yyyy HH:mm): " + formatted1);  // Output: 03/05/2025 14:30
-
-// Parse (String to LocalDateTime) formatted string back to LocalDateTime
-LocalDateTime parsedDateTime1 = LocalDateTime.parse(formatted1, formatter1);  
-System.out.println("Parsed LocalDateTime: " + parsedDateTime1);  // Output: 2025-05-03T14:30
-
-**2) Handling Multiple Formats (Parsing to String and Parsing back to LocalDateTime):**
-----------------------------------------------------------------------------------------------------------------------------------------------
-
-// Format (Parsing to String): yyyy-MM-dd'T'HH:mm:ss (ISO format)
+--convert to String(yyyy-MM-dd'T'HH:mm:ss) (ISO format)
 DateTimeFormatter formatter2 = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-String formatted2 = dateTime.format(formatter2);  
-System.out.println("Formatted DateTime (yyyy-MM-dd'T'HH:mm:ss): " + formatted2);  // Output: 2025-05-03T14:30:00
+String formatted2 = dateTime.format(formatter2);  // Output: 2025-05-03T14:30:00
 
-// Parse (String to LocalDateTime) back from ISO format
-LocalDateTime parsedDateTime2 = LocalDateTime.parse(formatted2, formatter2);  
-System.out.println("Parsed LocalDateTime: " + parsedDateTime2);  // Output: 2025-05-03T14:30:00
+--converting back to LocalDateTime
+LocalDateTime parsedDateTime2 = LocalDateTime.parse(formatted2, formatter2);   // Output: 2025-05-03T14:30:00
 
-**3) Example with Full Date and Time (Parsing to String and Parsing back to LocalDateTime):**
-----------------------------------------------------------------------------------------------------------------------------------------------
-// Format (Parsing to String): EEEE, MMMM dd yyyy, HH:mm:ss
+--convert to String(dd/MM/yyyy HH:mm)
+DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+String formatted1 = dateTime.format(formatter1);    // Output: 03/05/2025 14:30
+
+--convert back to LocalDateTime
+LocalDateTime parsedDateTime1 = LocalDateTime.parse(formatted1, formatter1);   // Output: 2025-05-03T14:30
+
+--convert to String(EEEE, MMMM dd yyyy, HH:mm:ss)
 DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("EEEE, MMMM dd yyyy, HH:mm:ss");
-String formatted3 = dateTime.format(formatter3);  
-System.out.println("Formatted DateTime (Full Date and Time): " + formatted3);  // Output: Saturday, May 03 2025, 14:30:00
+String formatted3 = dateTime.format(formatter3);   // Output: Saturday, May 03 2025, 14:30:00
 
-// Parse (String to LocalDateTime) back from the full date and time format
-DateTimeFormatter formatter4 = DateTimeFormatter.ofPattern("EEEE, MMMM dd yyyy, HH:mm:ss");
-LocalDateTime parsedDateTime3 = LocalDateTime.parse(formatted3, formatter4);  
-System.out.println("Parsed LocalDateTime: " + parsedDateTime3);  // Output: 2025-05-03T14:30:00
+--convert back to LocalDateTime
+LocalDateTime parsedDateTime3 = LocalDateTime.parse(formatted3, formatter3);  // Output: 2025-05-03T14:30:00
 
-**4) Error Handling (Parsing Invalid Dates) Example:**
-----------------------------------------------------------------------------------------------------------------------------------------------
+--Error Handling (Parsing Invalid Dates) Example:**
+   // Incorrect format example
+      String invalidDateTimeString = "2025-05-03 14:30";  // Missing 'T' between date and time
+      try {
+          LocalDateTime parsedDateTime4 = LocalDateTime.parse(invalidDateTimeString, formatter3);  // Will throw DateTimeParseException
+      }catch (Exception e) {
+          System.out.println("Error: " + e.getMessage());
+        }
 
-// Incorrect format example
-String invalidDateTimeString = "2025-05-03 14:30";  // Missing 'T' between date and time
-
-try {
-    LocalDateTime parsedDateTime4 = LocalDateTime.parse(invalidDateTimeString, formatter3);  // Will throw DateTimeParseException
-} catch (Exception e) {
-    System.out.println("Error: " + e.getMessage());
-}
+--other formats
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Format                          | Description                                                        | Example  
+| -------------------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------- |  
+| **yyyy-MM-dd'T'HH:mm:ss**        | The most common ISO-8601 format, representing the date and time.   | 2025-05-02T14:30:00  
+| **yyyy/MM/dd HH:mm:ss**         | Custom format: date and time with slashes for date separator.      | 2025/05/02 14:30:00  
+| **dd-MM-yyyy HH:mm:ss**         | Custom format: day, month, year, and time with dash separators.    | 02-05-2025 14:30:00  
+| **MM/dd/yyyy HH:mm:ss**         | Format with month first, followed by date, year, and time.         | 05/02/2025 14:30:00  
+| **yyyy.MM.dd HH:mm:ss**         | Custom format with periods separating year, month, and date.       | 2025.05.02 14:30:00  
+| **EEE, d MMM yyyy HH:mm:ss Z**  | Full date and time with day of week and time zone offset.          | Sun, 02 May 2025 14:30:00 +0000  
+| **yyyy-MM-dd HH:mm:ss.SSSSSS**  | Date and time with microsecond precision.                          | 2025-05-02 14:30:00.123456  
+| **yyyy/MM/dd'T'HH:mm:ss.SSS**   | ISO format with milliseconds precision.                            | 2025/05/02T14:30:00.123  
+| **yyyy-MM-dd HH:mm:ss.SSS**     | Date and time with milliseconds precision.                        | 2025-05-02 14:30:00.123  
+| **yyyy-MM-dd'T'HH:mm:ss.SSSSSS**| Date and time with microsecond precision in ISO-8601 format.      | 2025-05-02T14:30:00.123456  
 
 7)LOCALDATETIME TO ZONEDDATETIME TO INSTANT
 =======================================================================
-
-// Create a LocalDateTime object
 LocalDateTime localDT = LocalDateTime.of(2025, 5, 2, 10, 30);
-
-// Define the ZoneId (e.g., Asia/Kolkata)
 ZoneId zone = ZoneId.of("Asia/Kolkata");
 
-// Convert LocalDateTime to ZonedDateTime using the specified zone
+--Convert LocalDateTime toZonedDateTime
 ZonedDateTime zonedDT = localDT.atZone(zone);  // Result: 2025-05-02T10:30+05:30[Asia/Kolkata]
 
-// Convert ZonedDateTime to Instant (UTC based point in time)
+--Convert ZonedDateTime to Instant (UTC based point in time)
 Instant instant = zonedDT.toInstant();         // Result: 2025-05-02T05:00:00Z
-
-// Output
-System.out.println("LocalDateTime      : " + localDT);
-System.out.println("ZonedDateTime      : " + zonedDT);
-System.out.println("Instant (UTC time) : " + instant);
 
 
 8)TRUNCATE & MODIFY LocalDateTime METHODS
@@ -283,28 +259,12 @@ LocalDateTime withMinute   = dt.withMinute(0);           // 2025-05-02T10:00:45.
 LocalDateTime withSecond   = dt.withSecond(0);           // 2025-05-02T10:30:00.123456789
 LocalDateTime withNano     = dt.withNano(0);             // 2025-05-02T10:30:45
 
-// Output
-System.out.println("Original             : " + dt);                  // 2025-05-02T10:30:45.123456789
-System.out.println("Truncated to Minutes : " + truncatedToMinutes);  // 2025-05-02T10:30
-System.out.println("Truncated to Seconds : " + truncatedToSeconds);  // 2025-05-02T10:30:45
-System.out.println("Truncated to Hours   : " + truncatedToHours);    // 2025-05-02T10:00
-System.out.println("With Modified Year   : " + withYear);            // 2030-05-02T10:30:45.123456789
-System.out.println("With Modified Month  : " + withMonth);           // 2025-12-02T10:30:45.123456789
-System.out.println("With Modified Day    : " + withDay);             // 2025-05-25T10:30:45.123456789
-System.out.println("With Modified Hour   : " + withHour);            // 2025-05-02T08:30:45.123456789
-System.out.println("With Modified Minute : " + withMinute);          // 2025-05-02T10:00:45.123456789
-System.out.println("With Modified Second : " + withSecond);          // 2025-05-02T10:30:00.123456789
-System.out.println("With Modified Nano   : " + withNano);            // 2025-05-02T10:30:45
-
-
-
 
 4)Java 8 - LocalDateTime: Common Formats
 =======================================
 
 1)Formats description
----------------------------------------------------------------
-
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Format                          | Description                                                        | Example  
 | -------------------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------- |  
 | **yyyy-MM-dd'T'HH:mm:ss**        | The most common ISO-8601 format, representing the date and time.   | 2025-05-02T14:30:00  
